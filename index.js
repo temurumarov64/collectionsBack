@@ -7,7 +7,7 @@ const multer = require("multer");
 
 const sequelize = require("./database");
 const models = require("./models");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4200;;
 
 app.use(cors());
 app.use(express.json());
