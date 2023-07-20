@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const router = require("./routes/index");
+const router = require("./routes/routesind");
 const cors = require("cors");
 const multer = require("multer");
 
