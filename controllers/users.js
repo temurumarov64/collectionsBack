@@ -62,10 +62,10 @@ class UsersController {
     }
     const role = user.role;
 
-    // let comparePassword = md5("notSecretKey", password)
-    // if (comparePassword !== user.password) {
-    //   return res.status(401).json({ error: "Credentials are incorrect" });
-    // }
+    let comparePassword = md5("notSecretKey", password)
+    if (comparePassword !== user.password) {
+      return res.status(401).json({ error: "Credentials are incorrect" });
+    }
     const token = generateJwt(user.id);
     return res.status(200).json({ token: token, role: role, user_id: user.id });
   }
