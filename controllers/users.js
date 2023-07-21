@@ -62,10 +62,10 @@ class UsersController {
     }
     const role = user.role;
 
-    // let comparePassword = bcrypt.compareSync(password, user.password);
-    // if (!comparePassword) {
-    //   return res.status(401).json({ error: "Credentials are incorrect" });
-    // }
+    let comparePassword = md5("notSecretKey", password)
+    if (comparePassword !== user.password) {
+      return res.status(401).json({ error: "Credentials are incorrect" });
+    }
     const token = generateJwt(user.id);
     return res.status(200).json({ token: token, role: role, user_id: user.id });
   }
@@ -84,6 +84,18 @@ class UsersController {
     try {
       await User.destroy({ where: { id } });
       return res.status(200).json({ msg: "User has been deleted" });
+    } catch (e) {
+      res.status(500).json(e.message);
+      return;
+    }
+  }
+
+  async updateUserRole(req, res) {
+    const { id } = req.params;
+    // const {role} = req.body.role
+    try {
+      const update = await User.update(req.body, { where: { id } });
+      return res.status(200).json({ msg: update });
     } catch (e) {
       res.status(500).json(e.message);
       return;

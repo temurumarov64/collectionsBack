@@ -3,11 +3,7 @@ const router = new Router();
 const collectionsController = require("../controllers/collections");
 const imageController = require("../controllers/imageUpload");
 
-router.post(
-  "/create-collection",
-  imageController.upload,
-  collectionsController.createCollection
-);
+router.post("/create-collection", collectionsController.createCollection);
 router.post("/:id/create-item", collectionsController.createCollectionItem);
 router.get("/all", collectionsController.getAllCollections);
 router.get("/byUser", collectionsController.getCollectionsByUserId);

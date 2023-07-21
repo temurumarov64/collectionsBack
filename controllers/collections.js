@@ -5,6 +5,7 @@ const {
 } = require("../models");
 const { CollectionItem } = require("../models");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../uploadImage.js");
 
 class CollectionsController {
   async createCollection(req, res) {
@@ -13,14 +14,21 @@ class CollectionsController {
       process.env.SECRET_KEY
     );
 
+    // const image = req.body.photo;
+    let uploadRes =
+      "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80";
+
+    // if (image) {
+    //    uploadRes = await cloudinary.uploader.upload(image);
+    // }
+
     try {
       const collection = await Collection.create({
         name: req.body.name,
         description: req.body.description,
         theme: req.body.theme,
-        photo: req.file,
-        // req.body.photo ??
-        // "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        photo:
+          "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
         user_id: token.id,
       });
       if (req.body.extraFields && req.body.extraFields.length > 0) {
@@ -34,7 +42,7 @@ class CollectionsController {
         });
       }
 
-      res.json(collection);
+      res.json(req.body);
     } catch (e) {
       res.status(500).json(e.message);
       return;
